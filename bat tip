@@ -1,0 +1,2 @@
+du -a "D:/Hinh Anh" | grep -v "/$" | sort -rh
+-> list cac file trong tat ca cac subfolder, sau do sort theo size
