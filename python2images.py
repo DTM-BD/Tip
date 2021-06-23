@@ -29,14 +29,23 @@ flann = cv2.FlannBasedMatcher(index_params, search_params)
 
 matches = flann.knnMatch(Desc_1, Desc_2, k=2)
 
-print(len(matches))
+good_points=[]
+for m,n in matches:
+	if m.distance < 0.6*n.distance:
+		good_points.append(m)
+print(len(good_points))
+
+#print(len(matches)) # in ra cac mtach giua 2 hinh
+result = cv2.drawMatchesKnn(original, Kp_1, image_to_compare, Kp_2, matches, None)
+
+#cv2.imshow("result", cv2.resize(result, None, fx=0.4, fy=0.4)) # show ra hinh anh, match giua 2 hinh
 
 
 
 
 
-#cv2.imshow("Orginal", original)
-cv2.imshow("duplicate", image_to_compare)
+cv2.imshow("Orginal", cv2.resize(original, None, fx=0.4, fy=0.4))
+cv2.imshow("duplicate", cv2.resize(image_to_compare, None, fx=0.4, fy=0.4))
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 
