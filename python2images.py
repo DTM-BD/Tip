@@ -23,6 +23,9 @@ sift = cv2.xfeatures2d.SIFT_create()
 Kp_1,Desc_1 = sift.detectAndCompute(original, None)
 Kp_2,Desc_2 = sift.detectAndCompute(image_to_compare, None)
 
+print("Keypoints 1st image; " + str(len(Kp_1)))
+print("Keypoints 2nd image; " + str(len(Kp_2)))
+
 index_params = dict(algorithm=0, trees=5)
 search_params = dict()
 flann = cv2.FlannBasedMatcher(index_params, search_params)
@@ -33,12 +36,21 @@ good_points=[]
 for m,n in matches:
 	if m.distance < 0.6*n.distance:
 		good_points.append(m)
-print(len(good_points))
+
+number_keypoints = 0
+if len(Kp_1) <= len(Kp_2):
+	number_keypoints = len(Kp_1)
+else:
+	number_keypoints = len(Kp_2)
+
+print("Good matches: ",len(good_points))
+
+print("how good it matches: ", len(good_points)/number_keypoints*100)
 
 #print(len(matches)) # in ra cac mtach giua 2 hinh
 result = cv2.drawMatchesKnn(original, Kp_1, image_to_compare, Kp_2, matches, None)
 
-#cv2.imshow("result", cv2.resize(result, None, fx=0.4, fy=0.4)) # show ra hinh anh, match giua 2 hinh
+cv2.imshow("result", cv2.resize(result, None, fx=0.4, fy=0.4)) # show ra hinh anh, match giua 2 hinh
 
 
 
