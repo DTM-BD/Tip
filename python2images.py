@@ -2,8 +2,9 @@ import cv2
 #import nunpy as np
 import glob
 
-original = cv2.imread("tip/3545122068_5bf27ae7c4_b.jpg")
+original = cv2.imread("tip1/0b84feebdcbf6c781528fe72137915c7.jpg")
 #image_to_compare = cv2.imread("tip/3545122068_5bf27ae7c4_c.jpg") # hinh dung de test khi chi co 2 hinh
+
 sift = cv2.xfeatures2d.SIFT_create()
 Kp_1,Desc_1 = sift.detectAndCompute(original, None)
 index_params = dict(algorithm=0, trees=5)
@@ -13,7 +14,7 @@ flann = cv2.FlannBasedMatcher(index_params, search_params)
 # load tat ca image trong mot folder
 all_images_to_compare = []
 titles = []
-for f in glob.iglob("tip/*"):
+for f in glob.iglob("tip1/*.jpg"):
 	#print(f)# in duong dan cua hinh anh
 	image = cv2.imread(f)
 	titles.append(f)
