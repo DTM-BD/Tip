@@ -1,0 +1,37 @@
+
+'code list ra các tên của sheet trong các file excel trong folder và subfolder
+Option Explicit
+Public OutputRow As Integer
+Sub sample()
+    Dim FileSystem As Object
+    Dim HostFolder As String
+    OutputRow = 2
+    HostFolder = "D:\New folder" 'đường dẫn khi mở file dialoag
+    Set FileSystem = CreateObject("Scripting.FileSystemObject")
+    DoFolder FileSystem.GetFolder(HostFolder)
+End Sub
+
+Sub DoFolder(Folder)
+    Dim SubFolder
+    
+    For Each SubFolder In Folder.SubFolders
+        DoFolder SubFolder ' trong mỗi folder sẽ tìm các subfolder bên trong nó
+    Next
+    Dim File, Curr_File, FldrWkbk, Sht
+    
+    For Each File In Folder.Files' biến File sẽ chứa đường dẫn của file cụ thể (path + tên)
+        Curr_File = Dir(File)'lấy file name từ đường dẫn full
+        Set FldrWkbk = Workbooks.Open(File, False, True) ' mở file
+        ThisWorkbook.ActiveSheet.Range("A" & OutputRow) = File
+        ThisWorkbook.ActiveSheet.Range("B" & OutputRow).ClearContents   'Clear any previous values
+        OutputRow = OutputRow + 1
+        For Each Sht In FldrWkbk.Sheets
+            ThisWorkbook.ActiveSheet.Range("B" & OutputRow) = Sht.Name '  Sht.Name dùng để lấy sheet name
+            ThisWorkbook.ActiveSheet.Range("A" & OutputRow).ClearContents 'Clear any previous values
+            OutputRow = OutputRow + 1
+        Next Sht
+        FldrWkbk.Close SaveChanges:=False
+    Next
+    Set FldrWkbk = Nothing
+End Sub
+

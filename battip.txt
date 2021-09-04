@@ -3,3 +3,13 @@ du -a "D:/Hinh Anh" | grep -v "/$" | sort -rh
 
 find -type f -print0 | awk -F/ 'BEGIN { RS="\0" } { n=$NF } k[n]==1 { print p[n]; } k[n] { print $0 } { p[n]=$0; k[n]++ }'
 -> tìm trong thư mục các file có cùng tên
+
+
+dir /s /b /o:gn *.docx 
+-> list tất cả các file word trong folder và sub-folder (để tìm file trong một đóng folder và sub-folder)
+
+TREE [path] [/F] [/A] > [export to a file]
+
+   /F   Display the names of the files in each folder.
+   /A   Use ASCII instead of extended characters.
+-> list ra tất cẩ các file trong folder và subfolder theo dạng tree
